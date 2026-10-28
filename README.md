@@ -49,7 +49,7 @@ e) push q on the closed list
 
 
 <hr>
-<h2>Sample Graph I</h2>
+<h2>Sample Graph </h2>
 
 <img width="1618" height="972" alt="Heuristic Network Graph Diagram" src="https://github.com/user-attachments/assets/fe6f5a59-702f-48d7-8c54-374f3784c7ab" />
 
