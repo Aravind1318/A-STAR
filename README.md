@@ -1,11 +1,11 @@
 <h1>ExpNo 4 : Implement A* search algorithm for a Graph</h1> 
-<h3>Name:       </h3>
-<h3>Register Number:           </h3>
+<h3>Name: ARAVIND P </h3>
+<h3>Register Number: 212224240015 </h3>
 <H3>Aim:</H3>
 <p>To ImplementA * Search algorithm for a Graph using Python 3.</p>
 <H3>Algorithm:</H3>
 
-```text
+
 1.  Initialize the open list
 2.  Initialize the closed list
     put the starting node on the open 
@@ -22,8 +22,7 @@
    
     d) for each successor
         i) if successor is the goal, stop search
-        
-        ii) else, compute both g and h for successor
+         ii) else, compute both g and h for successor
           successor.g = q.g + distance between 
                               successor and q
           successor.h = distance from goal to 
@@ -32,87 +31,119 @@
           Manhattan, Diagonal and Euclidean 
           Heuristics)
           
-          successor.f = successor.g + successor.h
+   successor.f = successor.g + successor.h
 
-        iii) if a node with the same position as 
+iii) if a node with the same position as 
             successor is in the OPEN list which has a 
            lower f than successor, skip this successor
 
-        iV) if a node with the same position as 
+iV) if a node with the same position as 
             successor  is in the CLOSED list which has
             a lower f than successor, skip this successor
             otherwise, add  the node to the open list
      end (for loop)
   
-    e) push q on the closed list
+e) push q on the closed list
     end (while loop)
 
-``````
+
 
 <hr>
 <h2>Sample Graph I</h2>
-<hr>
 
-![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/b1377c3f-011a-4c0f-a843-516842ae056a)
-
-<hr>
-<h2>Sample Input</h2>
-<hr>
-10 14 <br>
-A B 6 <br>
-A F 3 <br>
-B D 2 <br>
-B C 3 <br>
-C D 1 <br>
-C E 5 <br>
-D E 8 <br>
-E I 5 <br>
-E J 5 <br>
-F G 1 <br>
-G I 3 <br>
-I J 3 <br>
-F H 7 <br>
-I H 2 <br>
-A 10 <br>
-B 8 <br>
-C 5 <br>
-D 7 <br>
-E 3 <br>
-F 6 <br>
-G 5 <br>
-H 3 <br>
-I 1 <br>
-J 0 <br>
-<hr>
-<h2>Sample Output</h2>
-<hr>
-Path found: ['A', 'F', 'G', 'I', 'J']
-
+<img width="1618" height="972" alt="Heuristic Network Graph Diagram" src="https://github.com/user-attachments/assets/fe6f5a59-702f-48d7-8c54-374f3784c7ab" />
 
 <hr>
-<h2>Sample Graph II</h2>
-<hr>
-
-![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/acbb09cb-ed39-48e5-a59b-2f8d61b978a3)
 
 
+### Program
+
+```python
+import heapq
+from collections import defaultdict
+
+def aStarAlgo(graph, start, goal, H_dist):
+    open_set = [(H_dist[start], start)]
+    parents = {start: None}
+    g = {start: 0}
+
+    while open_set:
+        f, node = heapq.heappop(open_set)
+
+        if node == goal:
+            path = []
+            while node is not None:
+                path.append(node)
+                node = parents[node]
+            path.reverse()
+            print("Path found:", path)
+            return
+
+        for neighbour, weight in graph[node]:
+            new_cost = g[node] + weight
+
+            if neighbour not in g or new_cost < g[neighbour]:
+                g[neighbour] = new_cost
+                parents[neighbour] = node
+                heapq.heappush(open_set, (new_cost + H_dist[neighbour], neighbour))
+
+    print("Path does not exist!")
+
+graph = defaultdict(list)
+
+n, e = map(int, input("Enter the number of nodes and edges: ").split())
+
+for i in range(e):
+    u, v, cost = input(f"Enter edge {i+1} (u v cost): ").split()
+    cost = int(cost)
+    graph[u].append((v, cost))
+    graph[v].append((u, cost))
+
+H_dist = {}
+
+print("Enter the heuristic values:")
+for i in range(n):
+    node, h = input().split()
+    H_dist[node] = int(h)
+
+start = input("Enter the starting node: ")
+goal = input("Enter the goal node: ")
+
+aStarAlgo(graph, start, goal, H_dist)
+```
+
+### Sample Input
+
+```text
+Enter the number of nodes and edges: 6 7
+Enter edge 1 (u v cost): S A 2
+Enter edge 2 (u v cost): S B 5
+Enter edge 3 (u v cost): A C 2
+Enter edge 4 (u v cost): A D 6
+Enter edge 5 (u v cost): B D 1
+Enter edge 6 (u v cost): C G 5
+Enter edge 7 (u v cost): D G 2
+Enter the heuristic values:
+S 6
+A 5
+B 3
+C 5
+D 2
+G 0
+Enter the starting node: S
+Enter the goal node: G
+```
+
+### Output
+
+```text
+Path found: ['S', 'B', 'D', 'G']
+```
+
 <hr>
-<h2>Sample Input</h2>
+
+<h3>Result:</h3>
+
 <hr>
-6 6 <br>
-A B 2 <br>
-B C 1 <br>
-A E 3 <br>
-B G 9 <br>
-E D 6 <br>
-D G 1 <br>
-A 11 <br>
-B 6 <br>
-C 99 <br>
-E 7 <br>
-D 1 <br>
-G 0 <br>
-<hr>
-<h2>Sample Output</h2>
-<hr>
-Path found: ['A', 'E', 'D', 'G']
+
+<p>Thus, a weighted graph was constructed and the implementation of the A* Search algorithm was completed successfully to find a path from the starting node to the goal node using edge costs and heuristic values.</p>
