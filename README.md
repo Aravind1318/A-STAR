@@ -5,8 +5,7 @@
 <p>To ImplementA * Search algorithm for a Graph using Python 3.</p>
 <H3>Algorithm:</H3>
 
-``````
-// A* Search Algorithm
+```text
 1.  Initialize the open list
 2.  Initialize the closed list
     put the starting node on the open 
